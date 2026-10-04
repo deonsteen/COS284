@@ -1,6 +1,10 @@
+# Build artifacts
 *.o
 task1
 task2
 task3
 task4
 task5
+
+# Windows/WSL download metadata
+*:Zone.Identifier
