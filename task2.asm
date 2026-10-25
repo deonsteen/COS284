@@ -2,50 +2,48 @@ bits 64
 global simulateDfa
 section .text
 simulateDfa:
-    mov r8, [rdi+8]             ; transitions
-    mov r9d, [rdi+20]           ; numTransitions
-    mov eax, [rdi+24]           ; cur = startState
+    mov r8, [rdi+8]
+    mov r9d, [rdi+20]
+    mov eax, [rdi+24]
 
 .nextChar:
-    movzx edx, byte [rsi]       ; c = *input
+    movzx edx, byte [rsi]
     test dl, dl
-    jz .endOfInput              ; hit '\0'
+    jz .endOfInput
 
-    ; look for a transition with from == cur && symbol == c
     xor ecx, ecx
     mov r10, r8
 .search:
     cmp ecx, r9d
-    jge .reject                 ; no transition for this char -> reject
-    cmp [r10], eax              ; from == cur ?
+    jge .reject
+    cmp [r10], eax
     jne .skip
-    cmp [r10+8], dl             ; symbol == c ?
+    cmp [r10+8], dl
     jne .skip
-    mov eax, [r10+4]            ; cur = to
-    inc rsi                     ; input++
+    mov eax, [r10+4]
+    inc rsi
     jmp .nextChar
 .skip:
-    add r10, 12                 ; next Transition
+    add r10, 12
     inc ecx
     jmp .search
 
 .endOfInput:
-    ; find the State whose id == cur and return its isAccepting
-    mov r8, [rdi]               ; states
-    mov r9d, [rdi+16]           ; numStates
+    mov r8, [rdi]
+    mov r9d, [rdi+16]
     xor ecx, ecx
 .findState:
     cmp ecx, r9d
     jge .reject
-    cmp [r8], eax               ; id == cur ?
+    cmp [r8], eax
     je .found
-    add r8, 8                   ; next State
+    add r8, 8
     inc ecx
     jmp .findState
 .found:
-    movzx eax, byte [r8+4]      ; return isAccepting
+    movzx eax, byte [r8+4]
     ret
 
 .reject:
-    xor eax, eax                ; return false
+    xor eax, eax
     ret
