@@ -1,14 +1,4 @@
-; DFA* readDfa(const char* filename)
-;
-; DFA layout (32 bytes):  states @0, transitions @8, numStates @16,
-;                         numTransitions @20, startState @24
-; State (8 bytes):        id @0, isAccepting @4
-; Transition (12 bytes):  from @0, to @4, symbol @8
-;
-; Callee-saved registers (survive our calls into libc):
-;   rbx = FILE*, r12 = DFA*, r13d = loop counter,
-;   r14 = pointer to current State/Transition, r15d = accepting id being parsed
-; Locals: [rsp] int, [rsp+4] int, [rsp+8] char  (fscanf writes into these)
+bits 64
 global readDfa
 extern fopen, fclose, fscanf, fgetc, malloc, calloc
 

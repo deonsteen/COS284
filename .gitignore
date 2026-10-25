@@ -7,3 +7,6 @@
 # Prac 4 build output and macOS zip junk
 dfa
 __MACOSX/
+
+# Editor settings
+.vscode/

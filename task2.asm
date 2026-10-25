@@ -1,15 +1,4 @@
-; bool simulateDfa(DFA* dfa, const char* input)
-;
-; DFA layout (32 bytes):  states @0, transitions @8, numStates @16,
-;                         numTransitions @20, startState @24
-; State (8 bytes):        id @0, isAccepting @4
-; Transition (12 bytes):  from @0, to @4, symbol @8
-;
-; Leaf function: only uses caller-saved registers, so no stack frame needed.
-;   rdi = dfa, rsi = input (walks along the string)
-;   eax = current state, edx = current char
-;   r8  = transitions, r9d = numTransitions
-;   r10 = pointer to the transition being checked, ecx = its index
+bits 64
 global simulateDfa
 section .text
 simulateDfa:
