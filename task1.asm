@@ -3,10 +3,10 @@ global readDfa
 extern fopen, fclose, fscanf, fgetc, malloc, calloc
 
 section .rodata
-modeRead    db "r", 0
-fmtCounts   db "%d,%d", 0
-fmtState    db "%d,", 0
-fmtTrans    db " %d,%d,%c", 0
+modeRead    db "r", 0 ; mode for fopen
+fmtCounts   db "%d,%d", 0 ; reads line 1: numStates,numTransitions
+fmtState    db "%d,", 0 ; reads one id and a trailing comma
+fmtTrans    db " %d,%d,%c", 0 ;leading space to ignore new lnie character and any whitespaces
 
 section .text
 readDfa:
@@ -17,7 +17,7 @@ readDfa:
     push r13
     push r14
     push r15
-    sub rsp, 24
+    sub rsp, 24 ; reserves space where fscanf can write its results
 
     lea rsi, [rel modeRead]
     call fopen
